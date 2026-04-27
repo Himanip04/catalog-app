@@ -1,12 +1,18 @@
-
 import data from "../../../data/data.json";
 import BackButton from "../../../components/BackButton";
+
+export async function generateStaticParams() {
+  return data.map((_, index) => ({
+    id: index.toString(),
+  }));
+}
+
 export default async function ItemDetail({ params }) {
-  const { id } = await params;
-  const index = Number(id);
+  const resolvedParams = await params; 
+  const index = Number(resolvedParams.id);
 
   if (isNaN(index) || index < 0 || index >= data.length) {
-    return <div className="notfound">Item not found</div>;
+    return <div>Item not found</div>;
   }
 
   const item = data[index];
